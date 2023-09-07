@@ -1,0 +1,22 @@
+using System;
+
+public class Solution
+{
+        public long solution(long n)
+        {
+            long answer = 0;
+
+            string n_str = n.ToString();
+
+            char[] n_arr = n_str.ToCharArray();
+
+            Array.Sort(n_arr);
+            Array.Reverse(n_arr);
+
+            n_str = new string(n_arr);
+
+            answer = long.Parse(n_str);
+
+            return answer;
+        }
+}
