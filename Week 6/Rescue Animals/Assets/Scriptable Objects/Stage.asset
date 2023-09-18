@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08bf59238bdb8524d85f4a10774119e7, type: 3}
+  m_Name: Stage
+  m_EditorClassIdentifier: 
+  stageNum: 1
+  animalData: {fileID: 11400000, guid: e5b19799418fc5b4bad938e39d325a37, type: 2}
+  intervalX: 0.5
+  intervalY: -0.5
+  generationTime: 30
+  maxRow: 8
+  maxCol: 8
+  animalGenerator: {fileID: 11400000, guid: 22cb8ac5ef9004cd7ab9901676ef96a1, type: 2}
+  blockGenerators:
+  - {fileID: 11400000, guid: 1dde9952ee232436f8f3bf7917a58ff4, type: 2}
+  - {fileID: 11400000, guid: f45bee710e92b41519422bddce6fb506, type: 2}
+  - {fileID: 11400000, guid: a1e7d3639b24e462ca20cf5383624d0c, type: 2}
+  - {fileID: 11400000, guid: a8ed15048cc894068b0337cc0eb61e1e, type: 2}
+  - {fileID: 11400000, guid: 512c00b935a034ac7b39a1e742cbb7d0, type: 2}
+  animalGenerators: []
+  blockPrefabs:
+  - {fileID: 4222917890701272065, guid: 41865b16c3659ef4c9361794269f9444, type: 3}
+  animalPrefabs:
+  - {fileID: 4182793997858057886, guid: bfd3773ff959b4256be85779fd2d1e59, type: 3}
+  - {fileID: 5385931599158561262, guid: daa17146f6be041b0a9cecdeef00e6a9, type: 3}
+  - {fileID: 1942674578692393687, guid: d71ca085fe9c3426aa5462745ee9df84, type: 3}
+  - {fileID: 1519063363925240311, guid: 7427a7ebd78b844d3878d6103cfcddf9, type: 3}
+  - {fileID: 5226164755119570723, guid: 52f64bd10a687468c99cb37b20284bb5, type: 3}
+  - {fileID: 2471607681302050439, guid: f7bfd3420e4844ca09b86ccd0bb17ad7, type: 3}
+  - {fileID: 4182793997858057886, guid: 4a960ebf301bd41cdb68cfc14612ef3b, type: 3}
+  BoxScale: {x: 0.5, y: 0.5}
+  stage: 1
+  onlyGenAnimal: 
