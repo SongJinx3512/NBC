@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class TopDownShooting : MonoBehaviour
 {
+    private ProjectileManager _projectileManager;
     private TopDownCharacterController _controller;
 
     [SerializeField] private Transform projectileSpawnPosition;
     private Vector2 _aimDirection = Vector2.right;
-
-    public GameObject testPrefab;
 
 
     private void Awake()
@@ -20,7 +19,8 @@ public class TopDownShooting : MonoBehaviour
 
     void Start()
     {
-        _controller.OnAttackEvent += OnFire;
+        _projectileManager = ProjectileManager.instance;
+        _controller.OnAttackEvent += OnShoot;
         _controller.OnLookEvent += OnAim;
     }
 
@@ -31,15 +31,36 @@ public class TopDownShooting : MonoBehaviour
     }
 
 
-    private void OnFire()
+    private void OnShoot(AttackSO attackSO)
     {
-        CreateProjectile();
+        RangedAttackData rangedAttackData = attackSO as RangedAttackData;
+        float projectilesAngleSpace = rangedAttackData.multipleProjectilesAngel;
+        int numberOfProjectilesPerShot = rangedAttackData.numberofProjectilesPerShot;
+
+        float minAngle = -(numberOfProjectilesPerShot / 2f) * projectilesAngleSpace + 0.5f * rangedAttackData.multipleProjectilesAngel;
+
+        for (int i = 0; i < numberOfProjectilesPerShot; i++)
+        {
+            float angle = minAngle + projectilesAngleSpace * i;
+            float randomSpread = Random.Range(rangedAttackData.spread, rangedAttackData.spread);
+            angle += randomSpread;
+            CreateProjectile(rangedAttackData, angle);
+        }
     }
 
 
-    private void CreateProjectile()
+    private void CreateProjectile(RangedAttackData rangedAttackData, float angle)
     {
-        //Debug.Log("Fire");
-        Instantiate(testPrefab, projectileSpawnPosition.position,Quaternion.identity);
+        _projectileManager.ShootBullet(
+            projectileSpawnPosition.position,
+            RotateVector2(_aimDirection,angle),
+            rangedAttackData
+            );
+    }
+
+
+    private static Vector2 RotateVector2( Vector2 v, float degree)
+    {
+        return Quaternion.Euler(0, 0, degree) * v;
     }
 }
