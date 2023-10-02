@@ -1,0 +1,8 @@
+Console.Write("Enter your kg: ");
+double weight = double.Parse(Console.ReadLine());
+
+Console.Write("Enter your m: ");
+double height = double.Parse(Console.ReadLine());
+
+double bmi = weight / (height * height);
+Console.WriteLine("Your BMI: " + bmi);
