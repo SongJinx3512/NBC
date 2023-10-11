@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public GameObject donglePrefab;
     public Transform dongleGroup;
 
+    public int maxLevel;
+
 
     void Awake()
     {
@@ -33,7 +35,8 @@ public class GameManager : MonoBehaviour
     {
         Dongle newDongle = GetDongle();
         lastDongle = newDongle;
-        lastDongle.level = Random.Range(0, 8);
+        lastDongle.manager = this;
+        lastDongle.level = Random.Range(0, maxLevel);
         lastDongle.gameObject.SetActive(true);
 
         StartCoroutine("WaitNext");
