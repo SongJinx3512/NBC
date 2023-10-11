@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("---------------[ Core ]")]
+    public bool isOver;
+    public int score;
+    public int maxLevel;
+
+    [Header("---------------[ Object Pooling ]")]
     public GameObject donglePrefab;
     public Transform dongleGroup;
     public List<Dongle> donglePool;
@@ -15,15 +23,23 @@ public class GameManager : MonoBehaviour
     public int poolCursor;
     public Dongle lastDongle;
 
+    [Header("---------------[ Audio ]")]
     public AudioSource bgmPlayer;
     public AudioSource[] sfxPlayer;
     public AudioClip[] sfxClip;
     public enum sfx { LevelUp, Next, Attach, Button, Over };
     int sfxCursor;
 
-    public int score;
-    public int maxLevel;
-    public bool isOver;
+    [Header("---------------[ UI ]")]
+    public GameObject startGroup;
+    public GameObject endGroup;
+    public Text scoreText;
+    public Text maxScoreText;
+    public Text subScoreText;
+
+    [Header("---------------[ ETC ]")]
+    public GameObject line;
+    public GameObject bottom;
 
 
     void Awake()
@@ -37,13 +53,31 @@ public class GameManager : MonoBehaviour
         {
             MakeDongle();
         }
+
+        if(!PlayerPrefs.HasKey("MaxScore"))
+        {
+            PlayerPrefs.SetInt("MaxScore", 0);
+        }
+
+        maxScoreText.text = PlayerPrefs.GetInt("MaxScore").ToString();
     }
 
 
-    void Start()
+    public void GameStart()
     {
+        // 오브젝트 발동
+        line.SetActive(true);
+        bottom.SetActive(true);
+        scoreText.gameObject.SetActive(true);
+        maxScoreText.gameObject.SetActive(true);
+        startGroup.SetActive(false);
+
+        // 사운드 플레이
         bgmPlayer.Play();
-        NextDongle();
+        sfxPlay(sfx.Button);
+
+        // 게임 시작 (동글생성)
+        Invoke("NextDongle", 1.5f);
     }
 
 
@@ -163,7 +197,29 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
+        // 최고 점수 갱신
+        int maxScore = Mathf.Max(score, PlayerPrefs.GetInt("MaxScore"));
+        PlayerPrefs.SetInt("MaxScore", maxScore);
+        // 게임오버 UI 표시
+        subScoreText.text = "점수 : " + scoreText.text;
+        endGroup.SetActive(true);
+
+        bgmPlayer.Stop();
         sfxPlay(sfx.Over);
+    }
+
+
+    public void Reset()
+    {
+        sfxPlay(sfx.Button);
+        StartCoroutine("ResetCoroutine");
+    }
+
+
+    IEnumerator ResetCoroutine()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("Main");
     }
 
 
@@ -187,5 +243,23 @@ public class GameManager : MonoBehaviour
                 sfxPlayer[sfxCursor].clip = sfxClip[6];
                 break;
         }
+
+        sfxPlayer[sfxCursor].Play();
+        sfxCursor = (sfxCursor + 1) % sfxPlayer.Length;
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Cancel"))
+        {
+            Application.Quit();
+        }
+    }
+
+
+    private void LateUpdate()
+    {
+        scoreText.text = score.ToString();
     }
 }
