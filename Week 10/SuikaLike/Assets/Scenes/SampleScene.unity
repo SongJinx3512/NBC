@@ -1519,8 +1519,11 @@ MonoBehaviour:
   lastDongle: {fileID: 0}
   donglePrefab: {fileID: 5533244549962511004, guid: ea8cae855a11e7d40b4b620640071374, type: 3}
   dongleGroup: {fileID: 32945006}
+  donglePool: []
   effectPrefab: {fileID: 4763005938111411913, guid: ce19877156a56964b957a0c48537b133, type: 3}
   effectGroup: {fileID: 1879039655}
+  effectPool: []
+  poolSize: 10
   bgmPlayer: {fileID: 1857139433}
   sfxPlayer:
   - {fileID: 184504846}

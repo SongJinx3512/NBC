@@ -33,7 +33,26 @@ public class Dongle : MonoBehaviour
     }
 
 
-    // Update is called once per frame
+    void OnDisable()
+    {
+        // 동글 속성 초기화
+        level = 0;
+        isDrag = false;
+        isMerge = false;
+        isAttach = false;
+
+        // 동글 트랜스폼 초기화
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+        transform.localScale = Vector3.zero;
+
+        // 동글 물리 초기화
+        rigid.simulated = false;
+        rigid.velocity = Vector3.zero;
+        rigid.angularDrag = 0;
+        circle.enabled = true;
+    }
+
     void Update()
     {
         if (isDrag)
