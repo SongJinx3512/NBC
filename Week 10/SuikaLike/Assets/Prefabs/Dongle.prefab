@@ -188,3 +188,5 @@ MonoBehaviour:
   level: 0
   isDrag: 0
   isMerge: 0
+  isAttach: 0
+  rigid: {fileID: 0}

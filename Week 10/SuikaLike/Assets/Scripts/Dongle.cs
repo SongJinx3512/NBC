@@ -49,7 +49,7 @@ public class Dongle : MonoBehaviour
         // 동글 물리 초기화
         rigid.simulated = false;
         rigid.velocity = Vector3.zero;
-        rigid.angularDrag = 0;
+        rigid.angularVelocity = 0;
         circle.enabled = true;
     }
 
@@ -91,7 +91,7 @@ public class Dongle : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         StartCoroutine("AttachRoutine");
     }
@@ -128,7 +128,7 @@ public class Dongle : MonoBehaviour
                 float otherY = other.transform.position.y;
                 // 내가 아래에 있을때와 동일한 높이일때 오른쪽에 있을때
                 {
-                    if (meX > otherX || (meX == otherY && meX > otherX))
+                    if (meX < otherX || (meX == otherY && meX > otherX))
                     {
                         //상대방은 숨기고 나는 레벨업
                         other.Hide(transform.position);
@@ -168,7 +168,7 @@ public class Dongle : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, targetPos, 0.5f);
             }
 
-            else if (targetPos != Vector3.up * 100)
+            else if (targetPos == Vector3.up * 100)
             {
                 transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.2f);
             }
@@ -198,7 +198,7 @@ public class Dongle : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
 
-        anim.SetInteger("Lvel", level + 1);
+        anim.SetInteger("Level", level + 1);
         EffectPlay();
         manager.sfxPlay(GameManager.sfx.LevelUp);
 
@@ -211,7 +211,7 @@ public class Dongle : MonoBehaviour
     }
 
 
-    private void OnTriggerStay2D(Collider2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
         if(collision.tag == "Finish")
         {
@@ -219,9 +219,9 @@ public class Dongle : MonoBehaviour
 
             if(deadTime > 2)
             {
-                spriteRenderer.color = new Color(0.9f, 0.2f, 02f);
+                spriteRenderer.color = new Color(0.9f, 0.2f, 0,2f);
             }
-            if(deadTime < 5)
+            if(deadTime > 5)
             {
                 manager.GameOver();
             }
@@ -230,11 +230,11 @@ public class Dongle : MonoBehaviour
     }
 
 
-    private void OnTriggerExit2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.tag == "Finish")
         {
-            deadTime = 0f;
+            deadTime = 0;
             spriteRenderer.color = Color.white;
         }
     }

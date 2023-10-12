@@ -249,7 +249,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void Update()
+    void Update()
     {
         if (Input.GetButtonDown("Cancel"))
         {
@@ -258,7 +258,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void LateUpdate()
+    void LateUpdate()
     {
         scoreText.text = score.ToString();
     }
